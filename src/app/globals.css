@@ -1,26 +1,177 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Design tokens */
+  --cream: #faf2e7;
+  --sand: #f2e6d6;
+  --sand-2: rgba(217, 184, 176, 0.24);
+  --line: rgba(46, 37, 32, 0.08);
+  --line-strong: rgba(46, 37, 32, 0.14);
+  --line-accent: rgba(190, 146, 76, 0.4);
+  --gold: #be924c;
+  --gold-ink: #7e5f2b;
+  --gold-12: rgba(190, 146, 76, 0.12);
+  --ink: #2e2520;
+  --ink-2: #6a5f57;
+  --dark: #2e2520;
+  --terra: #8c4f3f;
+  --clay: #b0705f;
+  --green: #5b7f62;
+  --slot: #efe4d4;
+  --slot-ink: #7a654f;
+  --shadow-card: 0 1px 2px rgba(46, 37, 32, 0.04), 0 6px 16px rgba(46, 37, 32, 0.05);
+  --shadow-sheet: 0 -4px 24px rgba(46, 37, 32, 0.08);
+  --scrim: rgba(46, 37, 32, 0.4);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-cream: var(--cream);
+  --color-sand: var(--sand);
+  --color-sand-2: var(--sand-2);
+  --color-line: var(--line);
+  --color-gold: var(--gold);
+  --color-gold-ink: var(--gold-ink);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-dark: var(--dark);
+  --color-terra: var(--terra);
+  --color-clay: var(--clay);
+  --color-green: var(--green);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-cormorant);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  background: var(--cream);
+  color: var(--ink);
+}
+
+html,
+body,
+input,
+button,
+textarea {
+  font-variant-numeric: lining-nums;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+}
+
+.font-serif {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-weight: 600;
+}
+
+.eyebrow {
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--gold-ink);
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 17px;
+  border-radius: 12px;
+  min-height: 52px;
+  width: 100%;
+  transition: transform 120ms ease;
+}
+.btn-gold:active,
+.btn-line:active {
+  transform: scale(0.98);
+}
+.btn-gold:disabled {
+  opacity: 0.45;
+}
+
+.btn-line {
+  border: 1.5px solid var(--line-accent);
+  border-radius: 12px;
+  min-height: 44px;
+  font-weight: 600;
+  background: transparent;
+  color: var(--ink);
+}
+
+.pb-nav {
+  padding-bottom: calc(96px + env(safe-area-inset-bottom));
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.anim-photo {
+  animation: zoom-in 1200ms ease-out both;
+}
+.anim-up {
+  animation: fade-up 600ms ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .anim-photo,
+  .anim-up {
+    animation: fade-up 200ms ease-out both;
+    transform: none !important;
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.anim-pop {
+  animation: pop 420ms ease-out both;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Staff app uses the full width */
+.app-wrap:has(.staff-root) {
+  max-width: none;
 }

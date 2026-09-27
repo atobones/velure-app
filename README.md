@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Veluré Café
 
-## Getting Started
+Loyalty card app for Veluré Café in Warsaw. Guests install it as a PWA, staff use `/kasa` on a tablet or phone.
 
-First, run the development server:
+## Features
+
+- Sign-in with an e-mail code or Google
+- Stamp card: 9 stamps, rewards at 3, 6 and 9, birthday dessert
+- QR code and card number at the till
+- Gift a free coffee to a friend, invite a friend
+- Missing-stamp requests with a receipt photo
+- Staff app: scan, add stamps, issue rewards, undo
+- Owner tools: requests, new items and sets for the Start screen, staff and PINs
+- Polish and English
+
+## Stack
+
+Next.js 15, TypeScript, Tailwind CSS 4, SQLite (better-sqlite3), Docker, Caddy.
+
+## Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Local dev creates two staff accounts: Owner (PIN `1111`) and Barista (PIN `2222`). E-mail codes are printed to the console when SMTP is not set.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Purpose |
+| --- | --- |
+| `STAFF_SEED` | Initial staff, e.g. `Anna:owner:1234;Jan:barista:5678` (required in production) |
+| `PUBLIC_URL` | Public address, used in gift links |
+| `SMTP_USER`, `SMTP_PASS` | Gmail account for login codes |
+| `CODE_PEPPER` | Secret for hashing login codes |
+| `GOOGLE_CLIENT_ID` | Google sign-in |
+| `VELURE_DB` | Database path (default `data/velure.db`) |
+| `VELURE_DOMAIN` | Domain for Caddy (in `deploy/.env`) |
 
-## Learn More
+## Deploy
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+docker buildx build --platform linux/amd64 -t velure-app:latest --load .
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`deploy/` has the Compose file, Caddyfile and backup script.
